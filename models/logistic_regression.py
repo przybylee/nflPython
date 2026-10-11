@@ -1,10 +1,10 @@
 from __future__ import annotations
 
+from sklearn.linear_model import LogisticRegression
+
 
 def build_logistic_regression_model(scores_df):
     """Train a simple logistic model to predict home-team wins."""
-    from sklearn.linear_model import LogisticRegression
-
     training = scores_df.dropna(subset=["home_score", "away_score"])
     # Starter baseline: use week as a minimal example feature.
     features = training[["week"]]

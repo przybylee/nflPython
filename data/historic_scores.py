@@ -2,14 +2,14 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 
+import nfl_data_py as nfl
+
 
 def load_historic_scores(seasons: Iterable[int]):
     """Load historical NFL schedules and scores for the requested seasons."""
     requested_seasons = sorted({int(season) for season in seasons})
     if not requested_seasons:
         raise ValueError("seasons must include at least one year")
-
-    import nfl_data_py as nfl
 
     columns = ["game_id", "season", "week", "gameday", "home_team", "away_team", "home_score", "away_score"]
     schedules = nfl.import_schedules(requested_seasons)
