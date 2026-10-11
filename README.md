@@ -16,6 +16,7 @@ nflPython/
 │   └── historic_scores.py
 ├── models/
 │   ├── __init__.py
+│   ├── features.py
 │   ├── linear_regression.py
 │   └── logistic_regression.py
 └── requirements.txt
@@ -33,6 +34,7 @@ On Windows (PowerShell), use:
 
 ```powershell
 .venv\Scripts\Activate.ps1
+pip install -r requirements.txt
 ```
 
 Example usage:
