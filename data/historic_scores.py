@@ -12,5 +12,6 @@ def load_historic_scores(seasons: Iterable[int]):
     import nfl_data_py as nfl
 
     schedules = nfl.import_schedules(requested_seasons)
+    schedules = schedules.dropna(subset=["home_score", "away_score"])
     columns = ["game_id", "season", "week", "gameday", "home_team", "away_team", "home_score", "away_score"]
     return schedules[columns]
