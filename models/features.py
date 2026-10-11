@@ -9,10 +9,13 @@ def prepare_week_feature_frame(scores_df):
     Callers should build targets from the returned training frame to keep row alignment.
     """
     training = scores_df.dropna(subset=["home_score", "away_score"])
+    if training.empty:
+        raise ValueError("scores_df must include at least one row with non-null home_score and away_score values")
+
     training = training.assign(week_numeric=pd.to_numeric(training["week"], errors="coerce"))
     training = training.dropna(subset=["week_numeric"])
     if training.empty:
-        raise ValueError("scores_df must include at least one row with numeric week and score values")
+        raise ValueError("scores_df must include at least one row with a numeric week value")
 
     training = training.reset_index(drop=True)
     return training, training[["week_numeric"]]
