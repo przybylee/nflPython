@@ -1,0 +1,14 @@
+from __future__ import annotations
+
+
+def build_linear_regression_model(scores_df):
+    """Train a simple linear model to predict home score margin."""
+    from sklearn.linear_model import LinearRegression
+
+    training = scores_df.dropna(subset=["home_score", "away_score"])
+    features = training[["week"]]
+    target = training["home_score"] - training["away_score"]
+
+    model = LinearRegression()
+    model.fit(features, target)
+    return model
