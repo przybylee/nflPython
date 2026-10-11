@@ -12,6 +12,11 @@ def prepare_week_feature_frame(scores_df: pd.DataFrame) -> tuple[pd.DataFrame, p
 
     Callers should build targets from the returned training frame to keep row alignment.
     """
+    required_columns = {"week", "home_score", "away_score"}
+    missing_columns = required_columns.difference(scores_df.columns)
+    if missing_columns:
+        raise ValueError(f"scores_df is missing required columns: {sorted(missing_columns)}")
+
     training = scores_df.dropna(subset=["home_score", "away_score"])
     if training.empty:
         raise ValueError("scores_df must include at least one row with non-null home_score and away_score values")

@@ -38,7 +38,7 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-Example usage:
+Example usage (run from the repository root):
 
 ```python
 from data.historic_scores import load_historic_scores
