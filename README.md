@@ -29,6 +29,12 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+On Windows (PowerShell), use:
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
 Example usage:
 
 ```python
