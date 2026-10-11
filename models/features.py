@@ -3,8 +3,12 @@ from __future__ import annotations
 import pandas as pd
 
 
-def prepare_week_feature_frame(scores_df):
+def prepare_week_feature_frame(scores_df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Prepare filtered training rows and baseline features from scores data.
+
+    Returns:
+        A tuple of (training, features) where both frames are row-aligned and
+        `features` contains the single numeric `week_numeric` baseline feature.
 
     Callers should build targets from the returned training frame to keep row alignment.
     """

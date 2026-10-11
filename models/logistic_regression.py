@@ -1,10 +1,11 @@
 from __future__ import annotations
 
+import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from .features import prepare_week_feature_frame
 
 
-def build_logistic_regression_model(scores_df):
+def build_logistic_regression_model(scores_df: pd.DataFrame) -> LogisticRegression:
     """Train a simple logistic model to predict home-team wins."""
     training, features = prepare_week_feature_frame(scores_df)
     # Starter baseline: use week as a minimal example feature.

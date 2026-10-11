@@ -23,4 +23,7 @@ def load_historic_scores(seasons: Iterable[int]) -> pd.DataFrame:
         raise ValueError(f"nfl_data_py response missing expected columns: {missing_columns}")
 
     schedules = schedules.dropna(subset=["home_score", "away_score"])
+    if schedules.empty:
+        raise ValueError("No completed games with final scores were found for the requested seasons")
+
     return schedules[SCORE_COLUMNS]
