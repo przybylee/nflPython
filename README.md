@@ -19,23 +19,24 @@ nflPython/
 │   ├── features.py
 │   ├── linear_regression.py
 │   └── logistic_regression.py
-└── requirements.txt
+|── pyproject.toml
+|__ uv.lock
 ```
 
 ## Quick start
 
+This is a [`uv`](https://docs.astral.sh/uv/getting-started/installation/) project.  Folow the link to install, then sycrhronize the project environment with 
+
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+uv sync
 ```
 
-On Windows (PowerShell), use:
+That creates a local `.venv` volder and installs the dependencies recorded in `uv.lock`.  You do not need to activate the virtual environment when using `uv.run`.  
 
-```powershell
-python -m venv .venv
-.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+Start a Python session inside the project environment:
+
+```bash
+uv run python
 ```
 
 Example usage (run from the repository root):
@@ -46,6 +47,12 @@ from models.logistic_regression import build_logistic_regression_model
 
 scores = load_historic_scores([2021, 2022, 2023])
 model = build_logistic_regression_model(scores)
+```
+
+Other coammands can be run in the same environment by prefixing them with `uv run`, for example:
+
+```bash
+uv run pytest
 ```
 
 ## Next steps
