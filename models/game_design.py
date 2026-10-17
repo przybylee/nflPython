@@ -32,13 +32,16 @@ def prepare_game_design_matrix(
 
     games = scores_df.loc[:, required_columns].copy()
 
+    if games["game_id"].duplicated().any():
+        raise ValueError("game_id values must be unique")
+
     if games.isna().any().any():
         raise ValueError("Design-matrix inputs cannot contain missing values")
 
     if teams is None:
         team_values = games[["home_team", "away_team"]].to_numpy().ravel()
 
-        team_index = pd.Index(np.sort(pd.unique(team_values)), nam = "team",)
+        team_index = pd.Index(np.sort(pd.unique(team_values)), name = "team",)
     else:
         team_index = pd.Index(teams, name = "team")
 
@@ -57,6 +60,8 @@ def prepare_game_design_matrix(
         raise ValueError(f"Unknown teams in scores_df: {unknown}")
 
     team_block = np.zeros((n_games, n_teams), dtype=float)
+
+    rows = np.arrange(n_games)
 
     team_block[rows, home_columns] = 1.0
     team_block[rows, away_columns] = -1.0
