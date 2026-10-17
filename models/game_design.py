@@ -70,6 +70,42 @@ def prepare_game_design_matrix(
 
         feature_blocks.append(numeric_features.to_numpy(dtype= float))
 
-        # Continue copying here
+    game_matrix = np.column_stack(feature_blocks)
 
-        
+    columns = [
+        *(f"team_{team}" for team in team_index),
+        "home_field",
+        *additional_features,
+    ]
+
+    # Delegate the constraint rows the regression functions
+    # Offer 4 response columns
+    response = (
+      games
+      .set_index("game_id")
+      .assign(
+          home_margin = lambda df:  (df["home_score"] - df["away_score"]),
+          ),
+          home_win = lambda df: ( 
+              df["home_score"] >df["away_score"]
+          ).astype("int8")
+          total_points = lambda df: (df["home_score"] + df["away_score"]), 
+      )
+      [["home_score", "away_score", "home_margin", "home_win", "total_points"]]
+    )
+
+    row_names = [*games["game_id"].tolist(),]
+
+    return (
+        pd.DataFrame(
+            design,
+            index=row_names,
+            columns=columns,
+        ),
+        pd.Series(
+            response,
+            index=row_names,
+            name="home_win",
+        ),
+        team_index,
+    )      
