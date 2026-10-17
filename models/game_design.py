@@ -8,8 +8,8 @@ def prepare_game_design_matrix(
     scores_df:  pd.DataFrame,
     *,
     additional_features:  list[str] | None = None,
-    teams:  list[str] | None,
-) -> tuple[pd.DataFrame, pd.Series, pd.Index]:
+    teams:  list[str] | None = None,
+) -> tuple[pd.DataFrame, pd.DataFrame, pd.Index]:
     """Build a design matrix with 1 row per game."""
     if additional_features is None:
         additional_features = []
@@ -20,7 +20,7 @@ def prepare_game_design_matrix(
         "away_team",
         "home_score",
         "away_score",
-        *additional_features*
+        *additional_features
     ]
 
     missing_columns = set(required_columns).difference(scores_df.columns)
@@ -38,7 +38,7 @@ def prepare_game_design_matrix(
     if teams is None:
         team_values = games[["home_team", "away_team"]].to_numpy().ravel()
 
-        team_index = pd.Index(np.sort(pd.unique(team_values)), name= "team",)
+        team_index = pd.Index(np.sort(pd.unique(team_values)), nam = "team",)
     else:
         team_index = pd.Index(teams, name = "team")
 
@@ -48,7 +48,7 @@ def prepare_game_design_matrix(
     home_columns = team_index.get_indexer(games["home_team"])
     away_columns = team_index.get_indexer(games["away_team"])
 
-    if (home_columns <-).any() or (away_columns < 0).any():
+    if (home_columns < 0).any() or (away_columns < 0).any():
         observed = pd.unique(
             games[["home_team", "away_team"]].to_numpy().ravel()
         )
@@ -85,27 +85,23 @@ def prepare_game_design_matrix(
       .set_index("game_id")
       .assign(
           home_margin = lambda df:  (df["home_score"] - df["away_score"]),
-          ),
           home_win = lambda df: ( 
               df["home_score"] >df["away_score"]
-          ).astype("int8")
+          ).astype("int8"),
           total_points = lambda df: (df["home_score"] + df["away_score"]), 
       )
       [["home_score", "away_score", "home_margin", "home_win", "total_points"]]
     )
 
-    row_names = [*games["game_id"].tolist(),]
+    game_index = pd.Index(
+        games["game_id"],
+        name="game_id",
+    )
 
-    return (
-        pd.DataFrame(
-            design,
-            index=row_names,
-            columns=columns,
-        ),
-        pd.Series(
-            response,
-            index=row_names,
-            name="home_win",
-        ),
-        team_index,
-    )      
+    design_matrix = pd.DataFrame(
+        game_matrix,
+        index=game_index,
+        columns=columns,
+    )
+
+    return design_matrix, response, team_index

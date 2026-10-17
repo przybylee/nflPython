@@ -259,6 +259,7 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "nfl-data-py" },
+    { name = "numpy" },
     { name = "pandas" },
     { name = "scikit-learn" },
 ]
@@ -271,6 +272,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "nfl-data-py", specifier = ">=0.3.0,<1.0.0" },
+    { name = "numpy", specifier = ">=2.5.4" },
     { name = "pandas", specifier = ">=2.0.0" },
     { name = "scikit-learn", specifier = ">=1.4.0" },
 ]
