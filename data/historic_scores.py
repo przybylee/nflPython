@@ -5,7 +5,12 @@ from collections.abc import Iterable
 import nfl_data_py as nfl
 import pandas as pd
 
-SCORE_COLUMNS = ["game_id", "season", "week", "gameday", "home_team", "away_team", "home_score", "away_score"]
+SCORE_COLUMNS = [
+    "game_id", "season", "week", "gameday", 
+    "home_team", "away_team", "home_score", "away_score",
+    "location", "away_rest", "home_rest", "roof", "surface", "temp",
+    "away_qb_id", "home_qb_id", "away_coach", "home_coach", "stadium_id"
+    ]
 
 
 def load_historic_scores(seasons: Iterable[int]) -> pd.DataFrame:

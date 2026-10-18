@@ -20,6 +20,7 @@ def prepare_game_design_matrix(
         "away_team",
         "home_score",
         "away_score",
+        "location",
         *additional_features
     ]
 
@@ -66,7 +67,9 @@ def prepare_game_design_matrix(
     team_block[rows, home_columns] = 1.0
     team_block[rows, away_columns] = -1.0
 
-    feature_blocks = [team_block, np.ones((n_games, 1), dtype = float),]
+    home_field = games[["location"]].eq("Home").astype(float).to_numpy()
+
+    feature_blocks = [team_block, home_field, dtype = float),]
 
     if additional_features:
         numeric_features = games[

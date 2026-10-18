@@ -4,7 +4,10 @@ from data.historic_scores import load_historic_scores
 from models.logistic_regression import build_logistic_regression_model
 from models.features import prepare_week_feature_frame
 
-scores = load_historic_scores([2021, 2022, 2023])
+scores_df = load_historic_scores([2025])
+# Need to add home field site
+scores_df.head
+
 model = build_logistic_regression_model(scores)
 
 print(model)
