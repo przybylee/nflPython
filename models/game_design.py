@@ -62,14 +62,14 @@ def prepare_game_design_matrix(
 
     team_block = np.zeros((n_games, n_teams), dtype=float)
 
-    rows = np.arrange(n_games)
+    rows = np.arange(n_games)
 
     team_block[rows, home_columns] = 1.0
     team_block[rows, away_columns] = -1.0
 
     home_field = games[["location"]].eq("Home").astype(float).to_numpy()
 
-    feature_blocks = [team_block, home_field, dtype = float),]
+    feature_blocks = [team_block, home_field,]
 
     if additional_features:
         numeric_features = games[
@@ -104,12 +104,12 @@ def prepare_game_design_matrix(
     game_index = pd.Index(
         games["game_id"],
         name="game_id",
-    )
+        )
 
     design_matrix = pd.DataFrame(
         game_matrix,
         index=game_index,
         columns=columns,
-    )
+        )
 
     return design_matrix, response, team_index
