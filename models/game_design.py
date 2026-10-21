@@ -10,7 +10,44 @@ def prepare_game_design_matrix(
     additional_features:  list[str] | None = None,
     teams:  list[str] | None = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.Index]:
-    """Build a design matrix with 1 row per game."""
+    """Build a design matrix with 1 row per game.
+    
+    Parameters
+    ----------
+
+    scores_df
+        Game-level data containing team, score, and location columns.
+    additional_features
+        Numeric columns to append to the design matrix.
+    teams
+        Ordered list of teams to use for the team-effect columns.
+        If omitted, teams are inferred from the game data
+    
+    Returns
+    -------
+    design_matrix
+        One row per game, with team effects, home-field advantage,
+        and any additional features.
+    response
+        Game outcomes including home margin, home win, and total
+        points.
+    team_index
+        Ordered team names corresponding to the team-effect columns.
+
+    Raises
+    ------
+    ValueError
+        If required columns are missing, values are missing, game IDs
+        are duplicated, or an unknown team is encountered.
+
+    Notes
+    -----
+    Constraint rows are not included. Individual regression functions
+    are responsible for adding their appropriate constraints.
+
+
+    
+    """
     if additional_features is None:
         additional_features = []
 
